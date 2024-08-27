@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student List</title>
+    <link rel="stylesheet" href="/assets/css/index.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
+        /* Inline CSS for the filter form visibility toggle */
+        #filter-form {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Student List</h1>
+
+<!-- Thanh tìm kiếm -->
+<form action="#" th:action="@{/students}" method="get">
+    <input type="text" name="name" placeholder="Search by Name" th:value="${param.name}">
+    <button type="submit"><i class="fas fa-search"></i>
+    </button>
+    <button type="button" onclick="toggleFilterForm()"><i class="fas fa-filter"></i>
+        </i>
+    </button>
+</form>
+
+
+<!-- Form lọc -->
+<div id="filter-form">
+    <form action="#" th:action="@{/students}" method="get">
+        <h3>Filter</h3>
+        <label for="minScore">Min Score:</label>
+        <input type="number" id="minScore" name="minScore" th:value="${param.minScore}" min="0" max="100">
+        <br>
+        <label for="maxScore">Max Score:</label>
+        <input type="number" id="maxScore" name="maxScore" th:value="${param.maxScore}" min="0" max="100">
+        <br>
+        <label for="minCredit">Min Credit:</label>
+        <input type="number" id="minCredit" name="minCredit" th:value="${param.minCredit}" step="0.01" min="1" max="10">
+        <br>
+        <label for="maxCredit">Max Credit:</label>
+        <input type="number" id="maxCredit" name="maxCredit" th:value="${param.maxCredit}" step="0.01" min="1" max="10">
+        <br>
+        <label for="grade">Grade:</label>
+        <input type="text" id="grade" name="grade" maxlength="1" th:value="${param.grade}">
+        <br>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="" th:selected="${param.gender == null}">Any</option>
+            <option value="true" th:selected="${param.gender == 'true'}">Male</option>
+            <option value="false" th:selected="${param.gender == 'false'}">Female</option>
+        </select>
+        <br>
+        <button type="submit">Apply Filter</button>
+    </form>
+</div>
+
+
+<a href="/showNewStudentForm">Add New Student</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Score</th>
+        <th>Credit</th>
+        <th>Grade</th>
+        <th>Gender</th>
+        <th>Date Report</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${listStudents}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.score}"></td>
+        <td th:text="${student.credit}"></td>
+        <td th:text="${student.grade}"></td>
+        <td th:text="${student.gender ? 'Male' : 'Female'}"></td>
+        <td th:text="${student.dateReport}"></td>
+        <td>
+            <a th:href="@{/showFormForUpdate/{id}(id=${student.id})}">Edit</a> |
+            <a th:href="@{/deleteStudent/{id}(id=${student.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    function toggleFilterForm() {
+        var form = document.getElementById('filter-form');
+        form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+    }
+</script>
+
+</body>
+</html>

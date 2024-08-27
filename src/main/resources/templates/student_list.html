@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student List</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<h1>Student List</h1>
+<form action="#" th:action="@{/students}" method="get">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${param.name}">
+    <br>
+    <label for="minScore">Min Score:</label>
+    <input type="number" id="minScore" name="minScore" th:value="${param.minScore}">
+    <br>
+    <label for="maxScore">Max Score:</label>
+    <input type="number" id="maxScore" name="maxScore" th:value="${param.maxScore}">
+    <br>
+    <label for="minCredit">Min Credit:</label>
+    <input type="number" step="0.01" id="minCredit" name="minCredit" th:value="${param.minCredit}">
+    <br>
+    <label for="maxCredit">Max Credit:</label>
+    <input type="number" step="0.01" id="maxCredit" name="maxCredit" th:value="${param.maxCredit}">
+    <br>
+    <label for="grade">Grade:</label>
+    <input type="text" id="grade" name="grade" maxlength="1" th:value="${param.grade}">
+    <br>
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender">
+        <option value="" th:selected="${param.gender == null}">Any</option>
+        <option value="true" th:selected="${param.gender == 'true'}">Male</option>
+        <option value="false" th:selected="${param.gender == 'false'}">Female</option>
+    </select>
+    <br>
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Score</th>
+        <th>Credit</th>
+        <th>Grade</th>
+        <th>Gender</th>
+        <th>Date Report</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.score}"></td>
+        <td th:text="${student.credit}"></td>
+        <td th:text="${student.grade}"></td>
+        <td th:text="${student.gender ? 'Male' : 'Female'}"></td>
+        <td th:text="${student.dateReport}"></td>
+        <td>
+            <a th:href="@{/students/edit/{id}(id=${student.id})}">Edit</a>
+            <a th:href="@{/students/delete/{id}(id=${student.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create New Student</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/assets/css/new_student.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Create New Student</h1>
+    <form th:action="@{/saveStudent}" th:object="${student}" method="post">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+            <label for="score">Score</label>
+            <input type="number" id="score" th:field="*{score}" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="credit">Credit</label>
+            <input type="number" id="credit" th:field="*{credit}" min="1" max="10" required>
+        </div>
+        <div class="form-group">
+            <label for="grade">Grade</label>
+            <input type="text" th:field="*{grade}" class="form-control" id="grade" placeholder="Enter grade">
+        </div>
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select th:field="*{gender}" class="form-control" id="gender">
+                <option value="true">Male</option>
+                <option value="false">Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="dateReport">Date Report</label>
+            <!-- Chọn đúng ngày tháng -->
+            <input type="date" id="dateReport" th:field="*{dateReport}" required>
+
+<!--            &lt;!&ndash; Giới hạn nhập liệu chỉ 1 ký tự nếu grade là char &ndash;&gt;-->
+<!--            <input type="text" id="grade" th:field="*{grade}" maxlength="1" required>-->
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
